@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index Page</title>
+    <link rel="stylesheet" href="/static/index.css">
+</head>
+<body>
+  <div class='main'>
+    <h2 id='title'>OSENSE Smart Stadium</h2>
+    <img id='court' src="/static/img/backend.png"/>
+    <div class = 'container'>
+      <div class = 'panel'>
+        <div class = 'control board'>
+          <h3>Server</h3>
+          <button class="start" onclick='start()'>start server</button><br>
+          <button class="stop" onclick='stop()'>stop server</button>
+          <p id='show_server'></p>
+        </div>
+    
+        <div class = 'control board'>
+          <h3>Redis(upload)</h3>
+          <button class="start" onclick='start_redis()'>start redis</button><br>
+          <button class="stop" onclick='stop_redis()'>stop redis</button>
+          <p id='show_redis'></p>
+        </div>
+      </div>
+  
+      <div class = 'board'>
+        <h3>On board player list</h3> 
+        <button class="player" onclick='get_player_list()'>Get player list</button>
+        
+        <button class="player" onclick='track_board()'>Tracking board</button><br>
+<!-- 
+        <button class="player">
+          <a id='change_player' href='https://osense.azurewebsites.net/taoyuanbs/index.php'  target="_blank">Change player list</a>
+        </button> -->
+
+        <div id = 'playerlist'>
+          <div class = 'playerlist2'>
+            <h4>Defense</h4>
+            <p id='defense'></p>
+          </div>
+          <div class = 'playerlist2'>
+            <h4>Attack</h4>
+            <p id='attack'></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+  <script src="/static/js/index.js"></script>
+</body>
+
+</html>

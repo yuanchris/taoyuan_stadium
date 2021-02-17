@@ -1,0 +1,288 @@
+/home/osense/Desktop/smart_stadium/smart_stadium_system/osense_baseball_player_tracking/yolov3_package
+model_name: yolov3
+classes_path: ./cfg/baseball_classes.txt
+anchors_path: ./cfg/coco_anchors.txt
+weights_path: ./logs/yolov3_freeze0_c2/ep083-loss17.367-val_loss16.106.h5
+/home/osense/Desktop/smart_stadium/smart_stadium_system/osense_baseball_player_tracking/yolov3_package
+model_name: yolov3
+classes_path: ./cfg/baseball_classes.txt
+anchors_path: ./cfg/coco_anchors.txt
+weights_path: ./logs/yolov3_freeze0_c2/ep083-loss17.367-val_loss16.106.h5
+/home/osense/Desktop/smart_stadium/smart_stadium_system/osense_baseball_player_tracking/yolov3_package
+model_name: yolov3
+classes_path: ./cfg/baseball_classes.txt
+anchors_path: ./cfg/coco_anchors.txt
+weights_path: ./logs/yolov3_freeze0_c2/ep083-loss17.367-val_loss16.106.h5
+Device mapping:
+/job:localhost/replica:0/task:0/device:XLA_GPU:0 -> device: XLA_GPU device
+/job:localhost/replica:0/task:0/device:XLA_GPU:1 -> device: XLA_GPU device
+/job:localhost/replica:0/task:0/device:XLA_GPU:2 -> device: XLA_GPU device
+/job:localhost/replica:0/task:0/device:XLA_CPU:0 -> device: XLA_CPU device
+/job:localhost/replica:0/task:0/device:GPU:0 -> device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:3d:00.0, compute capability: 7.5
+/job:localhost/replica:0/task:0/device:GPU:1 -> device: 1, name: GeForce RTX 2080 Ti, pci bus id: 0000:3e:00.0, compute capability: 7.5
+/job:localhost/replica:0/task:0/device:GPU:2 -> device: 2, name: GeForce RTX 2080 Ti, pci bus id: 0000:3f:00.0, compute capability: 7.5
+Device mapping:
+/job:localhost/replica:0/task:0/device:XLA_GPU:0 -> device: XLA_GPU device
+/job:localhost/replica:0/task:0/device:XLA_GPU:1 -> device: XLA_GPU device
+/job:localhost/replica:0/task:0/device:XLA_GPU:2 -> device: XLA_GPU device
+/job:localhost/replica:0/task:0/device:XLA_CPU:0 -> device: XLA_CPU device
+/job:localhost/replica:0/task:0/device:GPU:0 -> device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:3d:00.0, compute capability: 7.5
+/job:localhost/replica:0/task:0/device:GPU:1 -> device: 1, name: GeForce RTX 2080 Ti, pci bus id: 0000:3e:00.0, compute capability: 7.5
+/job:localhost/replica:0/task:0/device:GPU:2 -> device: 2, name: GeForce RTX 2080 Ti, pci bus id: 0000:3f:00.0, compute capability: 7.5
+Device mapping:
+/job:localhost/replica:0/task:0/device:XLA_GPU:0 -> device: XLA_GPU device
+/job:localhost/replica:0/task:0/device:XLA_GPU:1 -> device: XLA_GPU device
+/job:localhost/replica:0/task:0/device:XLA_GPU:2 -> device: XLA_GPU device
+/job:localhost/replica:0/task:0/device:XLA_CPU:0 -> device: XLA_CPU device
+/job:localhost/replica:0/task:0/device:GPU:0 -> device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:3d:00.0, compute capability: 7.5
+/job:localhost/replica:0/task:0/device:GPU:1 -> device: 1, name: GeForce RTX 2080 Ti, pci bus id: 0000:3e:00.0, compute capability: 7.5
+/job:localhost/replica:0/task:0/device:GPU:2 -> device: 2, name: GeForce RTX 2080 Ti, pci bus id: 0000:3f:00.0, compute capability: 7.5
+conv2d_1/random_uniform/RandomUniform: (RandomUniform): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/RandomUniform: (RandomUniform): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/sub: (Sub): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/sub: (Sub): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/mul: (Mul): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/mul: (Mul): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform: (Add): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform: (Add): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/kernel: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/kernel: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/kernel/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/kernel/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/kernel/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/kernel/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/Square: (Square): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/Square: (Square): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/Sum: (Sum): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/Sum: (Sum): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/mul: (Mul): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/mul: (Mul): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/add: (Add): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/add: (Add): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/convolution: (Conv2D): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/convolution: (Conv2D): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/gamma: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/gamma: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/gamma/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/gamma/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/gamma/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/gamma/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/beta: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/beta: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/beta/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/beta/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/beta/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/beta/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_mean: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_mean: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_mean/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_mean/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_mean/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_mean/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_variance: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_variance: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_variance/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_variance/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_variance/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_variance/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_1: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_1: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_2: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_2: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_3: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_3: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_4: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_4: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+input_1: (Placeholder): /job:localhost/replica:0/task:0/device:GPU:0
+input_1: (Placeholder): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/shape: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/shape: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/min: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/min: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/max: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/max: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/Const: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/Const: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/mul/x: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/mul/x: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/add/x: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/add/x: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const_1: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const_1: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const_2: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const_2: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const_3: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const_3: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/RandomUniform: (RandomUniform): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/RandomUniform: (RandomUniform): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/sub: (Sub): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/sub: (Sub): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/mul: (Mul): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/mul: (Mul): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform: (Add): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform: (Add): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/kernel: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/kernel: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/kernel/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/kernel/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/kernel/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/kernel/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/Square: (Square): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/Square: (Square): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/Sum: (Sum): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/Sum: (Sum): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/mul: (Mul): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/mul: (Mul): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/add: (Add): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/add: (Add): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/convolution: (Conv2D): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/convolution: (Conv2D): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/gamma: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/gamma: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/gamma/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/gamma/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/gamma/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/gamma/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/beta: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/beta: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/beta/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/beta/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/beta/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/beta/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_mean: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_mean: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_mean/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_mean/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_mean/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_mean/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_variance: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_variance: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_variance/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_variance/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_variance/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_variance/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_1: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_1: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_2: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_2: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_3: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_3: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_4: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_4: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+input_1: (Placeholder): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/init: (NoOp): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/shape: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+input_1: (Placeholder): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/min: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/shape: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/max: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/min: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/Const: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/max: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/mul/x: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/Const: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/add/x: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/mul/x: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/add/x: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const_1: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const_2: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const_1: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const_3: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const_2: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const_3: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/RandomUniform: (RandomUniform): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/sub: (Sub): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/mul: (Mul): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform: (Add): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/kernel: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/kernel/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/kernel/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/Square: (Square): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/Sum: (Sum): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/mul: (Mul): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/add: (Add): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/convolution: (Conv2D): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/gamma: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/gamma/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/gamma/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/beta: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/beta/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/beta/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_mean: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_mean/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_mean/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_variance: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_variance/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_variance/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_1: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_2: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_3: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_4: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/init: (NoOp): /job:localhost/replica:0/task:0/device:GPU:0
+input_1: (Placeholder): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/shape: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/min: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/max: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/Const: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/mul/x: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/add/x: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const_1: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const_2: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const_3: (Const): /job:localhost/replica:0/task:0/device:GP
+============= Start Reload Weights =============
+
+============= Start Reload Weights =============
+
+============= Start Reload Weights =============
+U:0
+conv2d_1/random_uniform/RandomUniform: (RandomUniform): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/sub: (Sub): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/mul: (Mul): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform: (Add): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/kernel: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/kernel/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/kernel/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/Square: (Square): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/Sum: (Sum): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/mul: (Mul): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/add: (Add): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/convolution: (Conv2D): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/gamma: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/gamma/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/gamma/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/beta: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/beta/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/beta/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_mean: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_mean/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_mean/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_variance: (VariableV2): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_variance/Assign: (Assign): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/moving_variance/read: (Identity): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_1: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_2: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_3: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/IsVariableInitialized_4: (IsVariableInitialized): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/init: (NoOp): /job:localhost/replica:0/task:0/device:GPU:0
+input_1: (Placeholder): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/shape: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/min: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/random_uniform/max: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/Const: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/mul/x: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+conv2d_1/weight_regularizer/add/x: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const_1: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const_2: (Const): /job:localhost/replica:0/task:0/device:GPU:0
+batch_normalization_1/Const_3: (Const): /job:localhost/replica:0/task:0/device:GPU:0
