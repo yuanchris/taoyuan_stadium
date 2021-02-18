@@ -18,11 +18,15 @@ class camera_controller:
         self.control_socket_list = []
 
         self.image_queues = dict()
+        self.raw_queues = dict()
         for camera in parameters.startup_parameters:
-            image_queue = myqueue.Queue(1)
-            self.image_queues[camera["index"]] = image_queue  # only the newest photo
-        self.tracking_controller = tracking_controller(self.image_queues, parameters.startup_parameters, 
-            parameters.replay_parameters, self.redis_upload_enabled)
+            image_queue = myqueue.Queue(1) # only the newest photo
+            self.image_queues[camera["index"]] = image_queue 
+            raw_queue = myqueue.Queue(10)
+            self.raw_queues[camera["index"]] = raw_queue 
+
+        self.tracking_controller = tracking_controller(self.image_queues,self.raw_queues, 
+            parameters.startup_parameters, parameters.replay_parameters, self.redis_upload_enabled)
         self.api = api_retriever()
         self.api.retrieve_game_id()
         self.defend_players, self.attack_players = self.api.retrieve_player_information()
@@ -72,7 +76,8 @@ class camera_controller:
                         # get images and position updating
                         self.getImages_is_running = True
                         self.updatingPosition_is_running = True
-                        self.start_getImages_thread()
+                        self.start_getJpg_thread()
+                        self.start_getRaw_thread()
                         self.start_updatingPosition_thread()
                         self.tracking_controller.run()
 
@@ -103,14 +108,14 @@ class camera_controller:
 
             csock.close()
 
-    def start_getImages_thread(self):
+    def start_getJpg_thread(self):
         for camera in parameters.startup_parameters:
             if camera["detection_activate"] or camera["tracking_activate"] or camera["replay_activate"]:
-                getImages = threading.Thread(target=self._getImages_thread, args=(camera["index"], camera["file_port"], camera["mount_root"],))
+                getImages = threading.Thread(target=self._getJpg_thread, args=(camera["index"], camera["file_port"], camera["mount_root"],))
                 getImages.start()
 
-    def _getImages_thread(self, index, port, mount_root):
-        print(f"========== camera {index} start getting images ==========")
+    def _getJpg_thread(self, index, port, mount_root):
+        print(f"========== camera {index} start getting jpgs ==========")
         serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # serversocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
         serversocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -130,6 +135,36 @@ class camera_controller:
             except BlockingIOError:
                 pass
         serversocket.close()
+
+    def start_getRaw_thread(self):
+        for camera in parameters.startup_parameters:
+            if camera["baseball_tracking_activate"]:
+                getRaw = threading.Thread(target=self._getRaw_thread, args=(camera["index"], camera["file_port"], camera["mount_root"],))
+                getRaw.start()
+
+    def _getRaw_thread(self, index, port, mount_root):
+        print(f"========== camera {index} start getting raws ==========")
+        serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # serversocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
+        serversocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        serversocket.bind(("127.0.0.1", port))
+        serversocket.setblocking(False) # set socket to non-blocking
+        serversocket.listen(5)
+        while self.getImages_is_running:
+            try:
+                csock, addr = serversocket.accept()
+                msg = csock.recv(1024).decode("utf-8")
+                # print('Connected by ', addr)
+                filename = msg.split("/")[-1]
+                print(f'camera {index} get {filename}')
+                self.raw_queues[index].put(mount_root + filename)
+                csock.close()
+                # print(self.image_queues[index].get())
+            except BlockingIOError:
+                pass
+        serversocket.close()
+
+
 
     def start_updatingPosition_thread(self):
         for camera in parameters.startup_parameters:

@@ -1,11 +1,27 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>tracking_board</title>
 	<style>
-	body {
-		height: 100vh;
-	}
+		/* body {
+			height: 100vh;
+		}
+	 	*/
+		.viewport {
+			display:flex;
+			flex-direction: column;
+			align-items: center;
+
+		}
+		/* #image {  
+
+			max-width: 400%; 
+			max-height: 400%; 
+
+			position: absolute; 
+
+		}  */
 	</style>
     <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
@@ -17,8 +33,11 @@
 <body>
 	<div class="viewport">
 		<h1>Tracking board</h1>
-		<img id = "image">
-		<!-- <canvas id="the-canvas"> -->
+		<div>
+			<img id = "image">
+			<!-- <canvas id="the-canvas"> -->
+		</div>
+
 	</div>
 	<script src="/static/js/track_board.js"></script>
 </body>

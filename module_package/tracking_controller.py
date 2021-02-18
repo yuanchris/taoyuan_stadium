@@ -2,15 +2,17 @@ import myqueue, threading, os, timeit, time
 import socket, json
 import websockets
 import asyncio
-# from .camera_system import Camera_System
+
 from .yolo_controller import yolo_controller
 from .highlight_replay.hightlight_replay_gpu import Highlight_Repleay as replay_controller
+# from .camera_system import Camera_System
 from .track_test import Camera_System
-
+from .baseball_tracking_app import PitecedBallTrackingApp
 
 class tracking_controller:
-    def __init__(self, image_queues, parameters, replay_parameters, redis_enabled):
+    def __init__(self, image_queues, raw_queues, parameters, replay_parameters, redis_enabled):
         self.image_queues = image_queues
+        self.raw_queues = raw_queues
         self.parameters = parameters
         self.replay_parameters = replay_parameters
         self.redis_upload_enabled = redis_enabled
@@ -41,8 +43,9 @@ class tracking_controller:
                     detection_module = yolo_controller(camera["gpu_id"], camera["mount_root"], self.image_queues[camera["index"]], self.detection_result[camera["index"]], self.detection_result_toreplay[camera["index"]])
                 else:
                     detection_module = yolo_controller(camera["gpu_id"], camera["mount_root"], self.image_queues[camera["index"]], self.detection_result[camera["index"]])
-                # detection_module.run()
                 self.detection_module[camera["index"]] = detection_module
+            # if camera["baseball_tracking_activate"]:
+            #     # TODO
     
     def run(self):
         self.tracking_is_running = True
@@ -57,6 +60,9 @@ class tracking_controller:
                 tracking_sendToWeb_thread = threading.Thread(target=self._tracking_sendToWeb_thread, args=(camera["index"],))
                 tracking_thread.start()
                 tracking_sendToWeb_thread.start()
+            # if camera["baseball_tracking_activate"]:
+            #     baseball_tracking_thread = threading.Thread(target=self._baseball_tracking_thread, args=(camera["index"],))
+            #     baseball_tracking_thread.start()
 
     def _replay_thread(self, camera_id):
         print("initialize replayer :", camera_id, self.replay_parameters[camera_id])
@@ -110,6 +116,9 @@ class tracking_controller:
     #     receive_dict = json.loads(receive_message)
     #     print("repaly controller reply :", receive_dict)
     #     sock.close()
+    
+    def _baseball_tracking_thread(self, camera_id):
+        tracking_module = PitecedBallTrackingApp(self.raw_queues[camera_id])
 
     def _tracking_thread(self, camera_id):
         tracking_module = Camera_System(camera_id)
@@ -177,7 +186,7 @@ class tracking_controller:
         # start_server = websockets.serve(counter, "127.0.0.1", 8062) # python 3.6: no reuse_port
         # self.loop.run_until_complete(start_server)
         # self.loop.run_forever()
-        print('=====loop close======')
+        print('=====tracking sent to web close======')
 
     def stop(self):
         self.tracking_is_running = False
