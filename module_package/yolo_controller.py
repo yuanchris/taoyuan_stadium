@@ -1,6 +1,7 @@
 import os, threading, timeit
 from .yolov3_package import yolov3_predict_gpus_cv as YOLO
 import cv2
+import time
 
 class yolo_controller:
     def __init__(self, gpu_id, mount_path, image_queue, result_queue, replay_queue = None):
@@ -24,7 +25,9 @@ class yolo_controller:
             # image = cv2.imread(os.path.join(self.mount_path, image_path))
             image = cv2.imread(image_path)
             try:
+                start = time.time()
                 yolo_result = YOLO.detect_img(self.yolov3, image.copy())
+                print('yolo detect time:', time.time() - start)
             except:
                 print('fail in detect')
                 continue
