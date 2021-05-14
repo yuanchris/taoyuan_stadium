@@ -211,14 +211,14 @@ class camera_controller:
                     elif receive_dict["message"] == "redis_start":
                         print('#main_system receive redis start')  
                         self.redis_upload_enabled = True
-                        # self.tracking_controller.enable_redis()
+                        self.tracking_controller.enable_redis()
                         data_to_send = dict()
                         data_to_send["success"] = True
                         client.send(json.dumps(data_to_send).encode('utf-8'))
                     elif receive_dict["message"] == "redis_stop":
                         print('#main_system receive redis stop')
                         self.redis_upload_enabled = False
-                        # self.tracking_controller.disable_redis()
+                        self.tracking_controller.disable_redis()
                         time.sleep(0.2)
                         self.erase_redis()
                         data_to_send = dict()

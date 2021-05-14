@@ -10,7 +10,7 @@ allFileList = os.listdir(yourPath)
 allFileList.sort()
 # print(allFileList)
 for file in allFileList:
-    time.sleep(0.2)
+    time.sleep(0.5)
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect(('127.0.0.1', 8902)) # camera 3

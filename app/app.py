@@ -10,15 +10,9 @@ socketio = SocketIO(app)
 def handle_message(data):
     print('received message: ' + data)
 
-@socketio.on('my event')
-def handle_my_custom_event(json):
-    print('received json: ' + str(json))
-
 @socketio.on('tracking')
 def tracking(message):
-    # print('=== in send track page===')
     print('received: ' + str(message))
-    # while True:
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     except socket.error as e:
@@ -27,14 +21,19 @@ def tracking(message):
 
     try:
         sock.connect(("127.0.0.1", 8062))
+        sock.settimeout(1)
+        # sock.setblocking(False)
+        receive_message = sock.recv(81920)
+        emit('send_track', receive_message)
+    except BlockingIOError as e:
+        # print("BlockingIOError: ", e)
+        pass    
     except socket.error as e:
         print("[ERROR] ", e)
         return json.dumps({"error": "connect error"})
-
-    receive_message = sock.recv(81920)
+    
     # print('===receive_message====',receive_message)
-    # emit('send_track', receive_message, broadcast=True)
-    emit('send_track', receive_message)
+    
     sock.close()
     # return json.dumps(receive_message)
 

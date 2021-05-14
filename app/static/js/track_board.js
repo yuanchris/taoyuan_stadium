@@ -18,9 +18,10 @@ var socket = io();
 
 socket.on('connect', function() {
     setInterval(function(){
-        socket.emit('tracking', {data: 'I\'m connected!'});
+        socket.emit('tracking', {data: 'tacked board website connected!'});
+        // console.log('send tracking');
     }, 1000);
-    
+    // console.log('send tracking')
 });
 
 socket.on('send_track', function(msg) {

@@ -6,7 +6,7 @@ import numpy as np
 from PIL import Image
 import json
 import websockets, asyncio
-
+import random
 FIELD_IMAGE_FILE = "./module_package/src/field.png"
 
 class Camera_System:
@@ -24,22 +24,17 @@ class Camera_System:
         # print("-------------- Tracking board ----------------------------")
         a = int(time.time())
         if a % 4 == 1:
-            self.defPoseList = {'C':[207 ,341], 'P':[207 ,281 + 20], '1B': [260, 253], 
-                '2B':[235,238],'SS': [186, 236], '3B': [151,266], 'LF': [112,118],
-                'CF':[200,75],  'RF': [328, 114]}
+            for key in self.defPoseList:
+                self.defPoseList[key][0] += 5*random.random()
         elif a % 4 == 2:
-            self.defPoseList = {'C':[207 ,341], 'P':[207 - 20 ,281], '1B': [260, 253], 
-                '2B':[235,238],'SS': [186, 236], '3B': [151,266], 'LF': [112,118],
-                'CF':[200,75],  'RF': [328, 114]}
+            for key in self.defPoseList:
+                self.defPoseList[key][0] -= 5*random.random()
         elif a % 4 == 3:
-            self.defPoseList = {'C':[207 ,341], 'P':[207 + 20 ,281], '1B': [260, 253], 
-                '2B':[235,238],'SS': [186, 236], '3B': [151,266], 'LF': [112,118],
-                'CF':[200,75],  'RF': [328, 114]}
+            for key in self.defPoseList:
+                self.defPoseList[key][1] += 5*random.random()
         else:
-            self.defPoseList = {'C':[207 ,341], 'P':[207,281], '1B': [260, 253], 
-                '2B':[235,238],'SS': [186, 236], '3B': [151,266], 'LF': [112,118],
-                'CF':[200,75],  'RF': [328, 114]}
-
+            for key in self.defPoseList:
+                self.defPoseList[key][1] -= 5*random.random()
 
         for key in self.defPoseList:
             # print(self.defPoseList)

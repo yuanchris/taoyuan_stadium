@@ -84,4 +84,5 @@ test.js
 /watchDog/8902
 
 #yolo
-yolov3_package
+**/yolov3_package/model_data
+**/yolov3_package/logs

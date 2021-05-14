@@ -25,7 +25,7 @@ startup_parameters = [
         "baseball_tracking_activate" : False,
         "file_port" : 8902,
         "mount_root" : "/home/chris/Desktop/taoyuan/NAS02_20191020_19-01/",
-        "replay_root" : "/home/kma4631452/Desktop/mnts/NAS_02/raw/",
+        "replay_root" : "/home/chris/Desktop/taoyuan/NAS02_20191020_19-01/",
         "gpu_id" : 1
     },
     {

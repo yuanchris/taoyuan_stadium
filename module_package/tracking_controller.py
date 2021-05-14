@@ -5,8 +5,8 @@ import asyncio
 
 from .yolo_controller import yolo_controller
 from .highlight_replay.hightlight_replay_gpu import Highlight_Repleay as replay_controller
-# from .camera_system import Camera_System
-from .track_test import Camera_System
+# from .tracking_board.camera_system import Camera_System
+from .tracking_board.track_test import Camera_System
 from .baseball_tracking_app import PitecedBallTrackingApp
 
 class tracking_controller:
@@ -79,6 +79,7 @@ class tracking_controller:
             exportedData = [frame_info, result["result"]]
             print('replay running')
             try:
+                # result = ['1',image file name] or [False,None]
                 if int(camera_id) == 2:
                     # verbose 0: no log, verbose 2: show log
                     result = replayer.receive_frame_info(0, exportedData, verbose = 2) 
@@ -87,35 +88,38 @@ class tracking_controller:
             except:
                 continue
             if result[0]:
+                print("==== got replay signal =====")
                 path = ""
                 for camera in self.parameters:
                     if camera["index"] == str(camera_id):
                         path = camera["replay_root"]
-                # if self.redis_upload_enabled:
-                #     self.new_clip(result[1],path)
+                if self.redis_upload_enabled:
+                    print("==== new clip =====")
+                    self.new_clip(result[1],path)
 
-    # def new_clip(self, filename, mount_root):
-    #     data_to_send = dict()
-    #     data_to_send["message"] = "new_clip"
-    #     data_to_send["datas"] = dict()
-    #     data_to_send["datas"]["filename"] = filename
-    #     data_to_send["datas"]["game"] = 0
-    #     data_to_send["datas"]["mount_path"] = mount_root
-    #     try:
-    #         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    #     except socket.error as e:
-    #         print("[ERROR] ", e)
+    def new_clip(self, filename, mount_root):
+        data_to_send = dict()
+        data_to_send["message"] = "new_clip"
+        data_to_send["datas"] = dict()
+        data_to_send["datas"]["filename"] = filename
+        data_to_send["datas"]["game"] = 0
+        data_to_send["datas"]["mount_path"] = mount_root
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        except socket.error as e:
+            print("[ERROR] ", e)
 
-    #     try:
-    #         sock.connect(('169.254.100.98', 8940))
-    #     except socket.error as e:
-    #         print("[ERROR] ", e)
-    #     message = json.dumps(data_to_send)
-    #     sock.send(message.encode('utf-8'))
-    #     receive_message = sock.recv(1024).decode('utf-8')
-    #     receive_dict = json.loads(receive_message)
-    #     print("repaly controller reply :", receive_dict)
-    #     sock.close()
+        try:
+            # sock.connect(('169.254.100.98', 8940))
+            sock.connect(('127.0.0.1', 8940))
+        except socket.error as e:
+            print("[ERROR] ", e)
+        message = json.dumps(data_to_send)
+        sock.send(message.encode('utf-8'))
+        receive_message = sock.recv(1024).decode('utf-8')
+        receive_dict = json.loads(receive_message)
+        print("repaly controller reply :", receive_dict)
+        sock.close()
     
     def _baseball_tracking_thread(self, camera_id):
         tracking_module = PitecedBallTrackingApp(self.raw_queues[camera_id])
@@ -163,6 +167,7 @@ class tracking_controller:
             
             for client in client_list:
                 if self.tracking_result[camera_id]:
+                    # print('=====sent tracking_result to socket=====')
                     csock.send(self.tracking_result[camera_id][1])
                     client.close()
                     client_list.remove(client)
