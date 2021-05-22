@@ -13,7 +13,7 @@ for file in allFileList:
     time.sleep(0.5)
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect(('127.0.0.1', 8902)) # camera 3
+        sock.connect(('127.0.0.1', 8902)) # camera 2
         filePath = os.path.join(yourPath,file)
         print(filePath)
         sock.send(filePath.encode('UTF-8'))
@@ -22,3 +22,15 @@ for file in allFileList:
 
     except socket.error as e:
         print("[ERROR] ", e)      
+
+    # try:
+    #     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    #     sock.connect(('127.0.0.1', 8903)) # camera 2
+    #     filePath = os.path.join(yourPath,file)
+    #     print(filePath)
+    #     sock.send(filePath.encode('UTF-8'))
+    #     sock.close()
+        
+
+    # except socket.error as e:
+    #     print("[ERROR] ", e)      

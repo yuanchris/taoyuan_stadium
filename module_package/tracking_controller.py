@@ -1,4 +1,4 @@
-import myqueue, threading, os, timeit, time
+import myqueue, threading, os, timeit, time, requests
 import socket, json
 import websockets
 import asyncio
@@ -26,7 +26,7 @@ class tracking_controller:
         self.tracking_result = dict()
         self.tracking_result_lock = threading.Lock()
         self.tracking_reset = False
-        self.loop = None
+        # self.loop = None
 
         for camera in parameters:
 
@@ -132,9 +132,17 @@ class tracking_controller:
                     self.tracking_reset = False
                     print("tracking reset")
                     tracking_module.set_reset()
-                # print("================trying to retrive image from queue ========")
+
                 detect_image = self.detection_result[camera_id].get()
-                result = tracking_module.execute(detect_image["result"])
+                # detect_image2 = self.detection_result["3"].get()  # another camera for tracking board
+
+                game_no = 104 # need to call hugo's api 
+                game_reuturn_data = self._call_api('https://osense.azurewebsites.net/taoyuanbs/app/querybattlecontrol', data = {"game_no":game_no})
+
+                result = tracking_module.execute(detect_image["result"], game_reuturn_data)
+                # result = tracking_module.execute(detect_image["image"], detect_image["result"], detect_image2["image"], detect_image2["result"], 
+                #     detect_image["pause_start"], game_reuturn_data)
+
                 self.tracking_result_lock.acquire()
                 self.tracking_result[camera_id] = result
                 self.tracking_result_lock.release()
@@ -209,3 +217,14 @@ class tracking_controller:
     def disable_redis(self):
         self.redis_upload_enabled = False
 
+    def reset_tracking(self):
+        self.tracking_reset = True
+
+    def _call_api(self, url, data=None):
+        if data:
+            r = requests.post(url, data = data)
+        else:
+            r = requests.post(url)
+        result = json.loads(r.text)
+        # print(r.text)
+        return result

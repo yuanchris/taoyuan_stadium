@@ -78,7 +78,7 @@ class camera_controller:
                         self.updatingPosition_is_running = True
                         self.start_getJpg_thread()
                         self.start_getRaw_thread()
-                        self.start_updatingPosition_thread()
+                        # self.start_updatingPosition_thread()
                         self.tracking_controller.run()
 
                 elif receive_dict["message"] == 'stop':
@@ -143,7 +143,7 @@ class camera_controller:
                 getRaw.start()
 
     def _getRaw_thread(self, index, port, mount_root):
-        print(f"========== camera {index} start getting raws ==========")
+        print(f"========== camera {index} start getting baseball_tracking_activate raws ==========")
         serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # serversocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
         serversocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -166,17 +166,17 @@ class camera_controller:
 
 
 
-    def start_updatingPosition_thread(self):
-        for camera in parameters.startup_parameters:
-            if camera["tracking_activate"]:
-                position_thread = threading.Thread(target=self._updatingPosition_thread, args=(camera["index"], camera["mount_root"],))
-                position_thread.start()
+    # def start_updatingPosition_thread(self):
+    #     for camera in parameters.startup_parameters:
+    #         if camera["tracking_activate"]:
+    #             position_thread = threading.Thread(target=self._updatingPosition_thread, args=(camera["index"], camera["mount_root"],))
+    #             position_thread.start()
 
-    def _updatingPosition_thread(self, index, mount_root):
-        print(f"========== camera {index} start updating position ==========")
-        while self.updatingPosition_is_running:
-            pass
-            # TODO
+    # def _updatingPosition_thread(self, index, mount_root):
+    #     print(f"========== camera {index} start updating position ==========")
+    #     while self.updatingPosition_is_running:
+    #         pass
+    #         # TODO
 
 
     def controlThread(self):
@@ -224,6 +224,17 @@ class camera_controller:
                         data_to_send = dict()
                         data_to_send["success"] = True
                         client.send(json.dumps(data_to_send).encode('utf-8'))
+                    elif receive_dict["message"] == "reset_tracking":
+                        self._reset_tracking()
+                        data_to_send = dict()
+                        data_to_send["success"] = True
+                        csock.send(json.dumps(data_to_send).encode('utf-8'))
+                    elif receive_dict["message"] == "hugo_game_information":
+                        pass
+                        # self._reset_tracking()
+                        # data_to_send = dict()
+                        # data_to_send["success"] = True
+                        # csock.send(json.dumps(data_to_send).encode('utf-8'))
                     else:
                         data_to_send = dict()
                         data_to_send["success"] = False
@@ -242,6 +253,9 @@ class camera_controller:
         # TODO
         # for key in self.redis_database.keys():
         #     self.redis_database.delete(key)    
+
+    def _reset_tracking(self):
+        self.tracking_controller.reset_tracking()
 
 if __name__ == '__main__':
     controller = camera_controller()

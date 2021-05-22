@@ -28,6 +28,7 @@ class yolo_controller:
                 start = time.time()
                 yolo_result = YOLO.detect_img(self.yolov3, image.copy())
                 print('yolo detect time:', time.time() - start)
+                # print('yolo detect_img result: ', yolo_result)
             except:
                 print('fail in detect')
                 continue
@@ -38,6 +39,7 @@ class yolo_controller:
             result["path"] = image_path
             result["image"] = image
             result["result"] = yolo_result
+            result["pause_start"] = True  # wait Lily's pause_start
             self.result_queue.put(result)
             if self.replay_queue != None:
                 self.replay_queue.put(result)
