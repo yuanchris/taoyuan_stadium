@@ -165,9 +165,6 @@ class tracking_controller:
             try:
                 csock, addr = serversocket.accept()
                 print('Connected by ', addr)
-                # if self.tracking_result[camera_id]:
-                #     # print('===self.tracking_result[camera_id]===:', self.tracking_result[camera_id])
-                #     csock.send(self.tracking_result[camera_id][1])
                 csock.settimeout(5)
                 client_list.append(csock)
             except BlockingIOError:
@@ -176,7 +173,9 @@ class tracking_controller:
             for client in client_list:
                 if self.tracking_result[camera_id]:
                     # print('=====sent tracking_result to socket=====')
-                    csock.send(self.tracking_result[camera_id][1])
+                    # csock.send(self.tracking_result[camera_id][1])
+                    csock.send(json.dumps(self.tracking_result[camera_id][0]).encode('utf-8'))
+
                     client.close()
                     client_list.remove(client)
         serversocket.close()

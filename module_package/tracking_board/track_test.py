@@ -17,7 +17,6 @@ class Camera_System:
 
 
     def execute(self, yoloResults, game_reuturn_data):
-        print(game_reuturn_data)
         # self.fieldIamge = cv2.imread(FIELD_IMAGE_FILE)
         pic = self.fieldIamge.copy()
         self.defPoseList = {'C':[207 ,341], 'P':[207,281], '1B': [260, 253], 
@@ -25,7 +24,6 @@ class Camera_System:
         'CF':[200,75],  'RF': [328, 114], 'H':[207 ,331]}
         for key in game_reuturn_data:
             if key == 'CurrentBat':
-                print('CurrentBat:', game_reuturn_data[key])
                 self.defPoseList['H'].append(game_reuturn_data[key])
             try:
                 self.defPoseList[key.split('_')[1]].append(game_reuturn_data[key])
@@ -47,23 +45,20 @@ class Camera_System:
             for key in self.defPoseList:
                 self.defPoseList[key][1] -= 3*random.random()
 
-        for key in self.defPoseList:
-            # print(self.defPoseList)
-            # cv2.circle(影像, 圓心座標, 半徑, 顏色, 線條寬度)
-            if key == 'H':
-                cv2.circle(pic, point2fToIntTuple(self.defPoseList[key]), 3, (0, 0, 200), -1)
-                cv2.putText(pic, key+' '+ self.defPoseList[key][2], textLocation(self.defPoseList[key]), cv2.FONT_HERSHEY_DUPLEX,
-                    0.3,(0, 0, 200), 0, cv2.LINE_AA)
-            else:
-                cv2.circle(pic, point2fToIntTuple(self.defPoseList[key]), 3, (200, 0, 0), -1)
-                cv2.putText(pic, key+' '+ self.defPoseList[key][2], textLocation(self.defPoseList[key]), cv2.FONT_HERSHEY_DUPLEX,
-                    0.3,(200, 0, 0), 0, cv2.LINE_AA)
+        # for key in self.defPoseList:
+        #     # cv2.circle(影像, 圓心座標, 半徑, 顏色, 線條寬度)
+        #     if key == 'H':
+        #         cv2.circle(pic, point2fToIntTuple(self.defPoseList[key]), 3, (0, 0, 200), -1)
+        #         cv2.putText(pic, key+' '+ self.defPoseList[key][2], textLocation(self.defPoseList[key]), cv2.FONT_HERSHEY_DUPLEX,
+        #             0.3,(0, 0, 200), 0, cv2.LINE_AA)
+        #     else:
+        #         cv2.circle(pic, point2fToIntTuple(self.defPoseList[key]), 3, (200, 0, 0), -1)
+        #         cv2.putText(pic, key+' '+ self.defPoseList[key][2], textLocation(self.defPoseList[key]), cv2.FONT_HERSHEY_DUPLEX,
+        #             0.3,(200, 0, 0), 0, cv2.LINE_AA)
+        # self.send_pic = cv2.imencode('.jpg', pic)[1].tostring()
+        # return [self.defPoseList, self.send_pic]
+        return [self.defPoseList, pic]
 
-            # cv2.imshow("Field", self.fieldIamge)
-            # cv2.waitKey(0)
-        self.send_pic = cv2.imencode('.jpg', pic)[1].tostring()
-        # print('self.send_pic[0]:',self.send_pic[0])
-        return [self.defPoseList, self.send_pic]
 
 def point2fToIntTuple(point2f):
     """Convert point2f (np.array) to tuple.

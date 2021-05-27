@@ -21,24 +21,59 @@ socket.on('connect', function() {
         socket.emit('tracking', {data: 'tacked board website connected!'});
         // console.log('send tracking');
     }, 1000);
+    // setTimeout(function(){
+    //     socket.emit('tracking', {data: 'tacked board website connected!'});
+    //     // console.log('send tracking');
+    // }, 1000);
     // console.log('send tracking')
 });
 
+
+
+
 socket.on('send_track', function(msg) {
     console.log(msg);
-    let arrayBuffer = msg;
-    // console.log(msg.data)
-    if (arrayBuffer.length != 0) {
-        image.src = "data:image/jpeg;base64," + encode(new Uint8Array(arrayBuffer));
+    let canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let circle_x, circle_y;
+    for (let key  in msg) {
+        circle_x = msg[key][0]
+        circle_y = msg[key][1]
+        ctx.beginPath();
+        //寬度及色彩設定
+        ctx.lineWidth = 1;
+        if (key == 'H') {
+            ctx.strokeStyle = "#FF0000"
+            ctx.fillStyle = "#FF0000"
+        } else {
+            ctx.strokeStyle = "#0000FF"
+            ctx.fillStyle = "#0000FF"
+        }
+
+        /*使用arc(x,y,r,s,e)畫一個圓
+        x,y是圓心的座標，r是半徑，s和e是起點和終點的角度*/
+        ctx.arc(circle_x,circle_y,2,0,Math.PI*2)
+        ctx.fill()
+        ctx.stroke()
+
+        //text
+        ctx.font="8px serif";
+        ctx.fillText(key + ' ' + msg[key][2],circle_x + 4,circle_y+2);
+
     }
+
+ 
+
+    // let arrayBuffer = msg;
+    // if (arrayBuffer.length != 0) {
+    //     image.src = "data:image/jpeg;base64," + encode(new Uint8Array(arrayBuffer));
+    // }
 });
 
 // socket.on('disconnect', function() {
 //     socket.emit('my event', {data: 'I\'m not connected!'});
 // });
-
-
-
 
 function encode (input) {
     var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";

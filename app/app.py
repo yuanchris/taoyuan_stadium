@@ -12,7 +12,6 @@ def handle_message(data):
 
 @socketio.on('tracking')
 def tracking(message):
-    print('received: ' + str(message))
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     except socket.error as e:
@@ -23,8 +22,9 @@ def tracking(message):
         sock.connect(("127.0.0.1", 8062))
         sock.settimeout(1)
         # sock.setblocking(False)
-        receive_message = sock.recv(81920)
-        emit('send_track', receive_message)
+        receive_message = sock.recv(81920).decode('utf-8')
+        result = json.loads(receive_message)
+        emit('send_track', result)
     except BlockingIOError as e:
         # print("BlockingIOError: ", e)
         pass    
