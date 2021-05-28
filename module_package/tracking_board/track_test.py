@@ -16,17 +16,21 @@ class Camera_System:
         self.send_pic = None
 
 
-    def execute(self, yoloResults, game_reuturn_data):
+    def execute(self, yoloResults, game_return_data):
         # self.fieldIamge = cv2.imread(FIELD_IMAGE_FILE)
+
         pic = self.fieldIamge.copy()
+        if game_return_data['pause_start'] == 'false':
+            return [{'pause_start':'false'}, pic]
+
         self.defPoseList = {'C':[207 ,341], 'P':[207,281], '1B': [260, 253], 
         '2B':[235,238],'SS': [186, 236], '3B': [151,266], 'LF': [112,118],
         'CF':[200,75],  'RF': [328, 114], 'H':[207 ,331]}
-        for key in game_reuturn_data:
+        for key in game_return_data:
             if key == 'CurrentBat':
-                self.defPoseList['H'].append(game_reuturn_data[key])
+                self.defPoseList['H'].append(game_return_data[key])
             try:
-                self.defPoseList[key.split('_')[1]].append(game_reuturn_data[key])
+                self.defPoseList[key.split('_')[1]].append(game_return_data[key])
             except:
                 continue
         # print("-------------- Tracking board ----------------------------")
@@ -57,6 +61,8 @@ class Camera_System:
         #             0.3,(200, 0, 0), 0, cv2.LINE_AA)
         # self.send_pic = cv2.imencode('.jpg', pic)[1].tostring()
         # return [self.defPoseList, self.send_pic]
+        
+            
         return [self.defPoseList, pic]
 
 

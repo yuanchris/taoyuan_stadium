@@ -230,11 +230,11 @@ class camera_controller:
                         data_to_send["success"] = True
                         csock.send(json.dumps(data_to_send).encode('utf-8'))
                     elif receive_dict["message"] == "hugo_game_information":
-                        pass
-                        # self._reset_tracking()
-                        # data_to_send = dict()
-                        # data_to_send["success"] = True
-                        # csock.send(json.dumps(data_to_send).encode('utf-8'))
+                        print("receive_dict['data']:", receive_dict['data'])
+                        self.tracking_controller.game_information = receive_dict['data']
+                        data_to_send = dict()
+                        data_to_send["success"] = True
+                        csock.send(json.dumps(data_to_send).encode('utf-8'))
                     else:
                         data_to_send = dict()
                         data_to_send["success"] = False

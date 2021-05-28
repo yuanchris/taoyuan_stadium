@@ -28,6 +28,13 @@ class tracking_controller:
         self.tracking_reset = False
         # self.loop = None
 
+        self.game_information = {"Code":"E000","Message":"查詢成功!",
+            "GameNo":104,"CurrentInning":0,"GameState":1, 'pause_start': True, 
+            "CurrentBat":"11 林晨樺","Run1B":"12 江國豪","Run2B":"12 江國豪","Run3B":"12 江國豪",
+            "Def_P":"00 蘇俊璋","Def_C":"15 劉昱言","Def_1B":"15 Finn","Def_2B":"11 林泓育",
+            "Def_3B":"15 Chris","Def_SS":"17 Claire","Def_LF":"35 成晉","Def_CF":"17 Matt",
+            "Def_RF":"17 Lily"}
+
         for camera in parameters:
 
             if camera["tracking_activate"]:
@@ -127,7 +134,7 @@ class tracking_controller:
     def _tracking_thread(self, camera_id):
         tracking_module = Camera_System(camera_id)
         while self.tracking_is_running:
-            try:
+            # try:
                 if self.tracking_reset:
                     self.tracking_reset = False
                     print("tracking reset")
@@ -136,10 +143,10 @@ class tracking_controller:
                 detect_image = self.detection_result[camera_id].get()
                 # detect_image2 = self.detection_result["3"].get()  # another camera for tracking board
 
-                game_no = 104 # need to call hugo's api 
-                game_reuturn_data = self._call_api('https://osense.azurewebsites.net/taoyuanbs/app/querybattlecontrol', data = {"game_no":game_no})
+                # game_no = 104 # need to call hugo's api 
+                # game_reuturn_data = self._call_api('https://osense.azurewebsites.net/taoyuanbs/app/querybattlecontrol', data = {"game_no":game_no})
 
-                result = tracking_module.execute(detect_image["result"], game_reuturn_data)
+                result = tracking_module.execute(detect_image["result"], self.game_information)
                 # result = tracking_module.execute(detect_image["image"], detect_image["result"], detect_image2["image"], detect_image2["result"], 
                 #     detect_image["pause_start"], game_reuturn_data)
 
@@ -148,9 +155,8 @@ class tracking_controller:
                 self.tracking_result_lock.release()
                 # print('track_result:', self.tracking_result[camera_id][0])
 
-            except:
-                print("tracking except continue!!!!")
-                # continue
+            # except:
+            #     print("tracking except continue!!!!")
 
     def _tracking_sendToWeb_thread(self, camera_id):
         print('===== tracking sent to web start=====')

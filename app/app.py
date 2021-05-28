@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import socket, json
 from flask_socketio import SocketIO,emit
 import time
@@ -160,6 +160,31 @@ def stop_redis():
     receive_dict = json.loads(receive_message)
     sock.close()
     return json.dumps(receive_dict)
+
+@app.route("/hugo_game_information", methods=['GET', 'POST'])
+def hugo_game_information():
+    print("===hugo_game_information===")
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    except socket.error as e:
+        print("Error:", e)
+        return json.dumps({"error": "establish error"})
+
+    try:
+        sock.connect(("127.0.0.1", 8051))
+    except socket.error as e:
+        print("[ERROR] ", e)
+        return json.dumps({"error": "connect error"})
+    req =  request.values.to_dict()
+    print('req', req)
+    message = {"message":"hugo_game_information", "data":req}
+    message = json.dumps(message)
+    sock.send(message.encode("UTF-8"))
+    receive_message = sock.recv(1024).decode("utf-8")
+    receive_dict = json.loads(receive_message)
+    sock.close()
+    return json.dumps(receive_dict)
+
 
 
 if __name__ == "__main__":

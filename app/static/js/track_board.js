@@ -32,32 +32,40 @@ socket.on('connect', function() {
 
 
 socket.on('send_track', function(msg) {
-    // console.log(msg);
+    console.log(msg);
     let mysvg = document.getElementById('mysvg')
 
     // $("#mysvg").empty();
     mysvg.innerHTML = '<image width="417" height="358" xlink:href="/static/img/field.svg"/>'
     // var circle= makeSVG('circle', {cx: 100, cy: 50, r:40, stroke: 'black', 'stroke-width': 2, fill: 'red'});
-    for (let key  in msg) {
-        let circle_x = msg[key][0]
-        let circle_y = msg[key][1]
-        let circle = makeCircle('circle', {cx: circle_x, cy: circle_y, r:5, fill: '#1E90FF'});
-        if (key == 'H') {
-            circle= makeCircle('circle', {cx: circle_x, cy: circle_y, r:5, fill: '#FF4500'});
-        }
-        let location = makeText('text', {x: circle_x, y: circle_y, fill: 'white', style:"font-size: 6px", "dominant-baseline":"middle", "text-anchor":"middle"}, key);
-        let text= makeText('text', {x: circle_x + 7, y: circle_y + 2, fill: 'black', style:"font-size: 8px"}, msg[key][2]);
-        
-        mysvg.appendChild(circle);
+    if (typeof msg['pause_start'] !== 'undefined') {
+        let text= makeText('text', {x: '50%', y: '40%', fill: 'red', style:"font-size: 28px" ,"dominant-baseline":"middle", "text-anchor":"middle"}, 'Pausing');
         mysvg.appendChild(text);
-        mysvg.appendChild(location);
-
-
-        //text
-        // ctx.font="8px serif";
-        // ctx.fillText(key + ' ' + msg[key][2],circle_x + 4,circle_y+2);
+    }
+    else {
+        for (let key  in msg) {
+            let circle_x = msg[key][0]
+            let circle_y = msg[key][1]
+            let circle = makeCircle('circle', {cx: circle_x, cy: circle_y, r:5, fill: '#1E90FF'});
+            if (key == 'H') {
+                circle= makeCircle('circle', {cx: circle_x, cy: circle_y, r:5, fill: '#FF4500'});
+            }
+            let location = makeText('text', {x: circle_x, y: circle_y, fill: 'white', style:"font-size: 6px", "dominant-baseline":"middle", "text-anchor":"middle"}, key);
+            let text= makeText('text', {x: circle_x + 7, y: circle_y + 2, fill: 'black', style:"font-size: 8px"}, msg[key][2]);
+            
+            mysvg.appendChild(circle);
+            mysvg.appendChild(text);
+            mysvg.appendChild(location);
+    
+    
+            //text
+            // ctx.font="8px serif";
+            // ctx.fillText(key + ' ' + msg[key][2],circle_x + 4,circle_y+2);
+    
+        }
 
     }
+
 });
 
 // socket.on('disconnect', function() {
