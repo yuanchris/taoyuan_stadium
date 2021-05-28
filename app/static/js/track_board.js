@@ -32,7 +32,7 @@ socket.on('connect', function() {
 
 
 socket.on('send_track', function(msg) {
-    console.log(msg);
+    // console.log(msg);
     let mysvg = document.getElementById('mysvg')
 
     // $("#mysvg").empty();
@@ -45,8 +45,9 @@ socket.on('send_track', function(msg) {
         if (key == 'H') {
             circle= makeCircle('circle', {cx: circle_x, cy: circle_y, r:5, fill: '#FF4500'});
         }
+        let location = makeText('text', {x: circle_x, y: circle_y, fill: 'white', style:"font-size: 6px", "dominant-baseline":"middle", "text-anchor":"middle"}, key);
         let text= makeText('text', {x: circle_x + 7, y: circle_y + 2, fill: 'black', style:"font-size: 8px"}, msg[key][2]);
-        let location = makeText('text', {x: circle_x - 3, y: circle_y + 2, fill: 'white', style:"font-size: 6px"}, key);
+        
         mysvg.appendChild(circle);
         mysvg.appendChild(text);
         mysvg.appendChild(location);
