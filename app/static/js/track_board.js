@@ -33,47 +33,50 @@ socket.on('connect', function() {
 
 socket.on('send_track', function(msg) {
     console.log(msg);
-    let canvas = document.getElementById("canvas");
-    var ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    let circle_x, circle_y;
-    for (let key  in msg) {
-        circle_x = msg[key][0]
-        circle_y = msg[key][1]
-        ctx.beginPath();
-        //寬度及色彩設定
-        ctx.lineWidth = 1;
-        if (key == 'H') {
-            ctx.strokeStyle = "#FF0000"
-            ctx.fillStyle = "#FF0000"
-        } else {
-            ctx.strokeStyle = "#0000FF"
-            ctx.fillStyle = "#0000FF"
-        }
+    let mysvg = document.getElementById('mysvg')
 
-        /*使用arc(x,y,r,s,e)畫一個圓
-        x,y是圓心的座標，r是半徑，s和e是起點和終點的角度*/
-        ctx.arc(circle_x,circle_y,2,0,Math.PI*2)
-        ctx.fill()
-        ctx.stroke()
+    // $("#mysvg").empty();
+    mysvg.innerHTML = '<image width="417" height="358" xlink:href="/static/img/field.svg"/>'
+    // var circle= makeSVG('circle', {cx: 100, cy: 50, r:40, stroke: 'black', 'stroke-width': 2, fill: 'red'});
+    for (let key  in msg) {
+        let circle_x = msg[key][0]
+        let circle_y = msg[key][1]
+        let circle = makeCircle('circle', {cx: circle_x, cy: circle_y, r:5, fill: '#1E90FF'});
+        if (key == 'H') {
+            circle= makeCircle('circle', {cx: circle_x, cy: circle_y, r:5, fill: '#FF4500'});
+        }
+        let text= makeText('text', {x: circle_x + 7, y: circle_y + 2, fill: 'black', style:"font-size: 8px"}, msg[key][2]);
+        let location = makeText('text', {x: circle_x - 3, y: circle_y + 2, fill: 'white', style:"font-size: 6px"}, key);
+        mysvg.appendChild(circle);
+        mysvg.appendChild(text);
+        mysvg.appendChild(location);
+
 
         //text
-        ctx.font="8px serif";
-        ctx.fillText(key + ' ' + msg[key][2],circle_x + 4,circle_y+2);
+        // ctx.font="8px serif";
+        // ctx.fillText(key + ' ' + msg[key][2],circle_x + 4,circle_y+2);
 
     }
-
- 
-
-    // let arrayBuffer = msg;
-    // if (arrayBuffer.length != 0) {
-    //     image.src = "data:image/jpeg;base64," + encode(new Uint8Array(arrayBuffer));
-    // }
 });
 
 // socket.on('disconnect', function() {
 //     socket.emit('my event', {data: 'I\'m not connected!'});
 // });
+
+function makeCircle(tag, attrs) {
+    var el= document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (var k in attrs)
+        el.setAttribute(k, attrs[k]);
+    return el;
+}
+function makeText(tag, attrs, text) {
+    var el= document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (var k in attrs)
+        el.setAttribute(k, attrs[k]);
+    el.innerHTML = text;
+    return el;
+}
+
 
 function encode (input) {
     var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
