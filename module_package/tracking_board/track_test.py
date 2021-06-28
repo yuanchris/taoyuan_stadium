@@ -16,11 +16,11 @@ class Camera_System:
         self.send_pic = None
 
 
-    def execute(self, yoloResults, game_return_data):
+    def execute(self, yoloResults, game_return_data, now_state):
         # self.fieldIamge = cv2.imread(FIELD_IMAGE_FILE)
 
         pic = self.fieldIamge.copy()
-        if game_return_data['pause_start'] == 'false':
+        if game_return_data['pause_start'] == 'false' or now_state == False:
             return [{'pause_start':'false'}, pic]
 
         self.defPoseList = {'C':[207 ,341], 'P':[207,281], '1B': [260, 253], 

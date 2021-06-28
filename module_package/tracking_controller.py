@@ -8,6 +8,7 @@ from .highlight_replay.hightlight_replay_gpu import Highlight_Repleay as replay_
 # from .tracking_board.camera_system import Camera_System
 from .tracking_board.track_test import Camera_System
 from .baseball_tracking_app import PitecedBallTrackingApp
+from .pause_start import pause_start_fusion
 
 class tracking_controller:
     def __init__(self, image_queues, raw_queues, parameters, replay_parameters, redis_enabled):
@@ -22,8 +23,11 @@ class tracking_controller:
         self.tracking_module = dict()
 
         self.detection_result = dict()
+        self.detection_result_toTrack = dict()
         self.detection_result_toreplay = dict()
-        self.tracking_result = dict()
+
+        self.tracking_camera_list = list()
+        self.tracking_result = list()
         self.tracking_result_lock = threading.Lock()
         self.tracking_reset = False
         # self.loop = None
@@ -35,21 +39,29 @@ class tracking_controller:
             "Def_3B":"15 Chris","Def_SS":"17 Claire","Def_LF":"35 成晉","Def_CF":"17 Matt",
             "Def_RF":"17 Lily"}
 
-        for camera in parameters:
+        self.now_state = True
+        self.start_state = True
 
+        for camera in parameters:
+            self.detection_result_toTrack[camera["index"]] = None
+            self.detection_result_toreplay[camera["index"]] = None
             if camera["tracking_activate"]:
-                self.tracking_result[camera["index"]] = list()
-            #     self.tracking_module[camera["index"]] = Camera_System(int(camera["index"]), camera["gpu_id"], self.image_queues[camera["index"]])
+                new_queue = myqueue.Queue(1)
+                self.detection_result_toTrack[camera["index"]] = new_queue
+            #     self.tracking_result[camera["index"]] = list()
             if camera["replay_activate"]:
                 new_queue = myqueue.Queue(1)
                 self.detection_result_toreplay[camera["index"]] = new_queue
             if camera["detection_activate"]:
                 new_queue = myqueue.Queue(1)
                 self.detection_result[camera["index"]] = new_queue
-                if camera["replay_activate"]:
-                    detection_module = yolo_controller(camera["gpu_id"], camera["mount_root"], self.image_queues[camera["index"]], self.detection_result[camera["index"]], self.detection_result_toreplay[camera["index"]])
-                else:
-                    detection_module = yolo_controller(camera["gpu_id"], camera["mount_root"], self.image_queues[camera["index"]], self.detection_result[camera["index"]])
+                # if camera["replay_activate"]:
+                #     detection_module = yolo_controller(camera["gpu_id"], camera["mount_root"], self.image_queues[camera["index"]], self.detection_result[camera["index"]], self.detection_result_toreplay[camera["index"]])
+                # else:
+                #     detection_module = yolo_controller(camera["gpu_id"], camera["mount_root"], self.image_queues[camera["index"]], self.detection_result[camera["index"]])
+
+                detection_module = yolo_controller(camera["gpu_id"], camera["mount_root"], self.image_queues[camera["index"]], 
+                    self.detection_result[camera["index"]], self.detection_result_toTrack[camera["index"]], self.detection_result_toreplay[camera["index"]])
                 self.detection_module[camera["index"]] = detection_module
             # if camera["baseball_tracking_activate"]:
             #     # TODO
@@ -63,13 +75,48 @@ class tracking_controller:
                 replay_thread = threading.Thread(target=self._replay_thread, args=(camera["index"],))
                 replay_thread.start()
             if camera["tracking_activate"]:
-                tracking_thread = threading.Thread(target=self._tracking_thread, args=(camera["index"],))
-                tracking_sendToWeb_thread = threading.Thread(target=self._tracking_sendToWeb_thread, args=(camera["index"],))
-                tracking_thread.start()
-                tracking_sendToWeb_thread.start()
+                self.tracking_camera_list.append(camera["index"])
             # if camera["baseball_tracking_activate"]:
             #     baseball_tracking_thread = threading.Thread(target=self._baseball_tracking_thread, args=(camera["index"],))
             #     baseball_tracking_thread.start()
+
+        pause_start_thread = threading.Thread(target=self._pause_start_thread, args=(self.tracking_camera_list,))
+        pause_start_thread.start()
+
+        tracking_thread = threading.Thread(target=self._tracking_thread, args=(self.tracking_camera_list,))
+        tracking_sendToWeb_thread = threading.Thread(target=self._tracking_sendToWeb_thread, args=(self.tracking_camera_list,))
+        tracking_thread.start()
+        tracking_sendToWeb_thread.start()
+
+
+    def _pause_start_thread(self, tracking_camera_list):
+        count = 0
+        external_state = 'start'
+        while self.tracking_is_running:
+            count += 1
+            detect_result = dict()
+            camera_detect = dict()
+            for id in tracking_camera_list:
+                detect_result[id] = self.detection_result[id].get()
+            
+            for item in detect_result:
+                camera_detect[item] = [detect_result[item]['path']]
+                camera_detect[item].extend(detect_result[item]['result'])
+            if count != 1:
+                external_state = 'auto'
+            self.now_state, self.start_state = pause_start_fusion(camera_detect, external_state= external_state, start_use_hb=False)
+            
+            # for camera in self.parameters:
+            #     if camera["replay_activate"]:
+            #         detect_result[camera["index"]]['now_state'] = now_state
+            #         detect_result[camera["index"]]['start_state'] = start_state
+            #         self.detection_result_toreplay[camera["index"]].put(detect_result[camera["index"]])
+            #     if camera["tracking_activate"]:
+            #         detect_result[camera["index"]]['now_state'] = now_state
+            #         detect_result[camera["index"]]['start_state'] = start_state
+            #         self.detection_result_toTrack[camera["index"]].put(detect_result[camera["index"]])
+            # print('self.detection_result_toreplay:', self.detection_result_toreplay)
+            # print('self.detection_result_toTrack:', self.detection_result_toTrack)
 
     def _replay_thread(self, camera_id):
         print("initialize replayer :", camera_id, self.replay_parameters[camera_id])
@@ -84,7 +131,6 @@ class tracking_controller:
 
             frame_info = [result["image"], result["path"]]
             exportedData = [frame_info, result["result"]]
-            print('replay running')
             try:
                 # result = ['1',image file name] or [False,None]
                 if int(camera_id) == 2:
@@ -131,8 +177,9 @@ class tracking_controller:
     def _baseball_tracking_thread(self, camera_id):
         tracking_module = PitecedBallTrackingApp(self.raw_queues[camera_id])
 
-    def _tracking_thread(self, camera_id):
-        tracking_module = Camera_System(camera_id)
+    def _tracking_thread(self, tracking_camera_list):
+        tracking_module = Camera_System(tracking_camera_list)
+        detect_image = dict()
         while self.tracking_is_running:
             # try:
                 if self.tracking_reset:
@@ -140,27 +187,23 @@ class tracking_controller:
                     print("tracking reset")
                     tracking_module.set_reset()
 
-                detect_image = self.detection_result[camera_id].get()
-                # detect_image2 = self.detection_result["3"].get()  # another camera for tracking board
-
+                for item in tracking_camera_list:
+                    detect_image[item] = self.detection_result_toTrack[item].get()
+                # print('tracking detect_image:', detect_image)
                 # game_no = 104 # need to call hugo's api 
                 # game_reuturn_data = self._call_api('https://osense.azurewebsites.net/taoyuanbs/app/querybattlecontrol', data = {"game_no":game_no})
-
-                result = tracking_module.execute(detect_image["result"], self.game_information)
+                result = tracking_module.execute(detect_image, self.game_information, self.now_state) # wait to modify after fin's module
                 # result = tracking_module.execute(detect_image["image"], detect_image["result"], detect_image2["image"], detect_image2["result"], 
                 #     detect_image["pause_start"], game_reuturn_data)
-
                 self.tracking_result_lock.acquire()
-                self.tracking_result[camera_id] = result
+                self.tracking_result = result
                 self.tracking_result_lock.release()
                 # print('track_result:', self.tracking_result[camera_id][0])
 
             # except:
             #     print("tracking except continue!!!!")
 
-    def _tracking_sendToWeb_thread(self, camera_id):
-        print('===== tracking sent to web start=====')
-
+    def _tracking_sendToWeb_thread(self, tracking_camera_list):
         serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         serversocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         serversocket.bind(("127.0.0.1", 8062))
@@ -177,10 +220,10 @@ class tracking_controller:
                 pass
             
             for client in client_list:
-                if self.tracking_result[camera_id]:
+                if self.tracking_result:
                     # print('=====sent tracking_result to socket=====')
                     # csock.send(self.tracking_result[camera_id][1])
-                    csock.send(json.dumps(self.tracking_result[camera_id][0]).encode('utf-8'))
+                    csock.send(json.dumps(self.tracking_result[0]).encode('utf-8'))
 
                     client.close()
                     client_list.remove(client)

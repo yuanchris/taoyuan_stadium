@@ -14,33 +14,33 @@ startup_parameters = [
     #     "gpu_id" : 0
     # },
     {
-        "index"   : "2",
+        "index"   : "128",
         "ip"      : "169.254.100.22",
         "port"    : "5588",
         "start_message" : "{\"code\":\"resume\"}\0",
         "stop_message" : "{\"code\":\"pause\"}\0",
         "detection_activate" : True,
         "tracking_activate" : True,
-        "replay_activate" : True,
+        "replay_activate" : False,
         "baseball_tracking_activate" : False,
         "file_port" : 8902,
-        "mount_root" : "/home/chris/Desktop/taoyuan/NAS02_20191020_19-01/",
-        "replay_root" : "/home/chris/Desktop/taoyuan/NAS02_20191020_19-01/",
+        "mount_root" : "/home/chris/Desktop/taoyuan/taoyuan_img/test_210417_19-02-24_19-03-15_128_west/",
+        "replay_root" : "/home/chris/Desktop/taoyuan/taoyuan_img/test_210417_19-02-24_19-03-15_128_west/",
         "gpu_id" : 1
     },
     {
-        "index"   : "3",
+        "index"   : "130",
         "ip"      : "169.254.100.23",
         "port"    : "5588",
         "start_message" : "{\"code\":\"resume\"}\0",
         "stop_message" : "{\"code\":\"pause\"}\0",
-        "detection_activate" : False,
-        "tracking_activate" : False,
+        "detection_activate" : True,
+        "tracking_activate" : True,
         "replay_activate" : False,
         "baseball_tracking_activate" : False,
         "file_port" : 8903,
-        "mount_root" : "/home/chris/Desktop/taoyuan/NAS02_20191020_19-01/",
-        "replay_root" : "/home/chris/Desktop/taoyuan/NAS02_20191020_19-01/",
+        "mount_root" : "/home/chris/Desktop/taoyuan/taoyuan_img/test_210417_19-02-24_19-03-15_130_east/",
+        "replay_root" : "/home/chris/Desktop/taoyuan/taoyuan_img/test_210417_19-02-24_19-03-15_130_east/",
         "gpu_id" : 2
     },
     # {
@@ -203,7 +203,7 @@ player_position_dict = {
 }
 
 replay_parameters = {
-    "2" : "1B",
+    "130" : "1B",
     "4" : "2B",
     "3" : "HB",
     "12" : "3B"

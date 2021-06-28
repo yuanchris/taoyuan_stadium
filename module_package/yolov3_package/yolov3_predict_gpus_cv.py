@@ -175,7 +175,7 @@ class YOLO(object):
             c_y = int((top + bottom) // 2)
             w = right - left
             h = bottom - top
-            info_l.append('{} {} {} {} {} {} {}'.format(c_x, c_y, left, top, w, h, c))
+            info_l.append('{} {} {} {} {} {} {} {}'.format(c_x, c_y, left, top, w, h, c, score))
 
             if draw_box:
                 thickness = (iw + ih) // 512
@@ -240,7 +240,7 @@ def model_path(model_name):
         paths_dict['classes_path'] = os.path.join(relative_path, 'cfg/baseball_classes.txt')
         paths_dict['anchors_path'] = os.path.join(relative_path, 'cfg/coco_anchors.txt')
         # paths_dict['weights_path'] = 'model_data/yolov3_weights.h5'
-        paths_dict['weights_path'] = os.path.join(relative_path, 'logs/yolov3_freeze0_c2/ep083-loss17.367-val_loss16.106.h5')
+        paths_dict['weights_path'] = os.path.join(relative_path, 'logs/yolov3_freeze0_c2/ep182-loss10.1930-val_loss10.7450.h5')
 
     elif model_name == 'yolov3-lite' or 'yolov3-fast':
         paths_dict['classes_path'] = os.path.join(relative_path, 'cfg/baseball_classes.txt')
