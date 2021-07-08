@@ -4,8 +4,8 @@ import websockets
 import asyncio
 
 from .yolo_controller import yolo_controller
-from .highlight_replay.hightlight_replay_gpu import Highlight_Repleay as replay_controller
-# from .tracking_board.camera_system import Camera_System
+from .highlight_replay.highlight_replay import Highlight_Repleay as replay_controller
+from .tracking_board.strategy_board import status as ST
 from .tracking_board.track_test import Camera_System
 from .baseball_tracking_app import PitecedBallTrackingApp
 from .pause_start import pause_start_fusion
@@ -34,10 +34,10 @@ class tracking_controller:
 
         self.game_information = {"Code":"E000","Message":"查詢成功!",
             "GameNo":104,"CurrentInning":0,"GameState":1, 'pause_start': True, 
-            "CurrentBat":"11 林晨樺","Run1B":"12 江國豪","Run2B":"12 江國豪","Run3B":"12 江國豪",
-            "Def_P":"00 蘇俊璋","Def_C":"15 劉昱言","Def_1B":"15 Finn","Def_2B":"11 林泓育",
-            "Def_3B":"15 Chris","Def_SS":"17 Claire","Def_LF":"35 成晉","Def_CF":"17 Matt",
-            "Def_RF":"17 Lily"}
+            "Atk_H":"11 林晨樺","Atk_1H":"","Atk_2H":"","Atk_3H":"",
+            "Def_P":"01 蘇俊璋","Def_C":"15 劉昱言","Def_1B":"12 蔡豐安","Def_2B":"30 林泓育",
+            "Def_3B":"15 陳志遠","Def_SS":"17 Claire","Def_LF":"35 成晉","Def_CF":"18 Matt",
+            "Def_RF":"19 Lily"}
 
         self.now_state = True
         self.start_state = True
@@ -80,13 +80,13 @@ class tracking_controller:
             #     baseball_tracking_thread = threading.Thread(target=self._baseball_tracking_thread, args=(camera["index"],))
             #     baseball_tracking_thread.start()
 
-        pause_start_thread = threading.Thread(target=self._pause_start_thread, args=(self.tracking_camera_list,))
-        pause_start_thread.start()
+        # pause_start_thread = threading.Thread(target=self._pause_start_thread, args=(self.tracking_camera_list,))
+        # pause_start_thread.start()
 
-        tracking_thread = threading.Thread(target=self._tracking_thread, args=(self.tracking_camera_list,))
-        tracking_sendToWeb_thread = threading.Thread(target=self._tracking_sendToWeb_thread, args=(self.tracking_camera_list,))
-        tracking_thread.start()
-        tracking_sendToWeb_thread.start()
+        # tracking_thread = threading.Thread(target=self._tracking_thread, args=(self.tracking_camera_list,))
+        # tracking_sendToWeb_thread = threading.Thread(target=self._tracking_sendToWeb_thread, args=(self.tracking_camera_list,))
+        # tracking_thread.start()
+        # tracking_sendToWeb_thread.start()
 
 
     def _pause_start_thread(self, tracking_camera_list):
@@ -130,16 +130,14 @@ class tracking_controller:
             result = self.detection_result_toreplay[camera_id].get()
 
             frame_info = [result["image"], result["path"]]
-            exportedData = [frame_info, result["result"]]
+            exportedData = [frame_info, result["result"], self.now_state]
             try:
-                # result = ['1',image file name] or [False,None]
-                if int(camera_id) == 2:
-                    # verbose 0: no log, verbose 2: show log
-                    result = replayer.receive_frame_info(0, exportedData, verbose = 2) 
-                else:
-                    result = replayer.receive_frame_info(0, exportedData, verbose = 2)
-            except:
-                continue
+                # verbose 0: no log, verbose 2: show log
+                result = replayer.receive_frame_info(0, exportedData, verbose = 2) 
+                # result = ['1',image file name] or [False,None]    
+            except Exception as e:
+                print(e)
+                
             if result[0]:
                 print("==== got replay signal =====")
                 path = ""
@@ -178,21 +176,46 @@ class tracking_controller:
         tracking_module = PitecedBallTrackingApp(self.raw_queues[camera_id])
 
     def _tracking_thread(self, tracking_camera_list):
-        tracking_module = Camera_System(tracking_camera_list)
+        # tracking_module = Camera_System(tracking_camera_list)
+        PS = ST.player_status()
         detect_image = dict()
+        result = None
         while self.tracking_is_running:
             # try:
-                if self.tracking_reset:
-                    self.tracking_reset = False
-                    print("tracking reset")
-                    tracking_module.set_reset()
+                # if self.tracking_reset:
+                #     self.tracking_reset = False
+                #     print("tracking reset")
+                #     tracking_module.set_reset()
 
                 for item in tracking_camera_list:
                     detect_image[item] = self.detection_result_toTrack[item].get()
                 # print('tracking detect_image:', detect_image)
                 # game_no = 104 # need to call hugo's api 
                 # game_reuturn_data = self._call_api('https://osense.azurewebsites.net/taoyuanbs/app/querybattlecontrol', data = {"game_no":game_no})
-                result = tracking_module.execute(detect_image, self.game_information, self.now_state) # wait to modify after fin's module
+                
+                servitor_start = [self.game_information['pause_start'], 
+                    [bool(self.game_information['Atk_1H']), bool(self.game_information['Atk_2H']), bool(self.game_information['Atk_3H'])]] # by hugo's backend
+                print('servitor_start:', servitor_start)
+                is_start = PS.set_pause(self.start_state, self.now_state, servitor_start)
+                
+                if is_start:
+                    PS.init_position(detect_image['128']['image'], detect_image['130']['image'],detect_image['128']['result'] , detect_image['130']['result'] )
+
+                    result = PS.get_result_x_y_pause()
+                    '''
+                    the result form is {'P':[300,300,False], ...}
+                    ['P','C','H','1B','2B','3B','SS','LF','CF','RF','1H','2H','3H']
+                    '''
+                
+                    for key in self.game_information:
+                        try:
+                            result[key.split('_')[1]].append(self.game_information[key])
+                        except:
+                            # print('tracking key error:', key)
+                            continue
+                else:
+                    result = {'pause_start':'false'}
+                # result = tracking_module.execute(detect_image, self.game_information, self.now_state) # wait to modify after fin's module
                 # result = tracking_module.execute(detect_image["image"], detect_image["result"], detect_image2["image"], detect_image2["result"], 
                 #     detect_image["pause_start"], game_reuturn_data)
                 self.tracking_result_lock.acquire()
@@ -222,8 +245,7 @@ class tracking_controller:
             for client in client_list:
                 if self.tracking_result:
                     # print('=====sent tracking_result to socket=====')
-                    # csock.send(self.tracking_result[camera_id][1])
-                    csock.send(json.dumps(self.tracking_result[0]).encode('utf-8'))
+                    csock.send(json.dumps(self.tracking_result).encode('utf-8'))
 
                     client.close()
                     client_list.remove(client)

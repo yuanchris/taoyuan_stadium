@@ -13,8 +13,7 @@ class yolo_controller:
         # self.yolov3 = YOLO.initial_model('yolov3', gpu_id)    # chris try no gpu_id 
         self.yolov3 = YOLO.initial_model('yolov3')
         self.thread_is_running = False
-        print('self.track_queue: ', track_queue)
-        print('self.replay_queue: ', replay_queue)
+
     def run(self):
         self.thread_is_running = True
         new_thread = threading.Thread(target=self._predict_thread)
